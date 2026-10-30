@@ -1,0 +1,117 @@
+/* ==========================================================================
+   SpaceSpeed: Animaciones Cósmicas, Resplandores y Efectos Visuales
+   ========================================================================== */
+
+/* Botón con pulso de energía de plasma */
+.pulse-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.pulse-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  transform: scale(0.5);
+  animation: pulsePlasma 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulsePlasma {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+/* Efecto de resplandor para el motor Warp */
+@keyframes warpGlowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.8), 0 0 40px rgba(168, 85, 247, 0.5);
+  }
+}
+
+.warp-glow {
+  animation: warpGlowPulse 2.5s infinite ease-in-out;
+}
+
+/* Efecto para dilatación relativista */
+@keyframes relativisticGlowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.4), 0 0 20px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 22px rgba(168, 85, 247, 0.8), 0 0 35px rgba(244, 63, 94, 0.5);
+  }
+}
+
+.relativistic-glow {
+  animation: relativisticGlowPulse 2.5s infinite ease-in-out;
+}
+
+/* Entrada de modal */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-window {
+  animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Efecto de titilación de estrellas */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Animación de giro para el botón de intercambio */
+@keyframes spinSwap {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+/* Shimmer en las barras de progreso */
+@keyframes trackShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.track-progress {
+  background-size: 200% 100%;
+  animation: trackShimmer 3s infinite linear;
+}

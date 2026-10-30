@@ -1,0 +1,1096 @@
+/* ==========================================================================
+   SpaceSpeed: Componentes de Interfaz, Paneles Glassmorphic y HUD
+   ========================================================================== */
+
+/* Paneles de Contenedor */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-glass);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-title-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+}
+
+.panel-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  text-transform: uppercase;
+}
+
+/* Selector de Planetas */
+.planet-selector-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .planet-selector-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+.planet-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.cosmic-select {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: all var(--transition-fast);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  cursor: pointer;
+}
+
+.cosmic-select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px var(--accent-cyan-glow);
+}
+
+.btn-swap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-highlight);
+  color: var(--accent-cyan);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  transition: transform var(--transition-normal);
+}
+
+.btn-swap:hover {
+  transform: rotate(180deg) scale(1.1);
+  background: rgba(2, 132, 199, 0.3);
+}
+
+/* Modos de Distancia Orbital */
+.distance-mode-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dist-buttons-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .dist-buttons-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.dist-mode-btn {
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 9px 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.dist-mode-btn:hover {
+  background: rgba(51, 65, 85, 0.6);
+  color: var(--text-main);
+}
+
+.dist-mode-btn.active {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  box-shadow: 0 0 14px var(--accent-cyan-glow);
+}
+
+/* Telemetría de Distancia */
+.distance-metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: rgba(10, 15, 30, 0.65);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  text-align: center;
+}
+
+.metric-unit-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metric-lbl {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.metric-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+/* Lienzo del Sistema Solar Interactivo */
+.solar-viz-container {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  background: radial-gradient(circle at center, rgba(15, 23, 42, 0.9) 0%, rgba(5, 7, 17, 0.98) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+#orbitCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.canvas-hud-overlay {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  z-index: 10;
+}
+
+.hud-select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2px 8px 2px 10px;
+}
+
+.hud-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hud-select {
+  border: none;
+  background: transparent;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: var(--font-body);
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+}
+
+.hud-select option {
+  background: #0f172a;
+  color: #fff;
+}
+
+.canvas-legend-overlay {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot-origin {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 6px var(--accent-cyan);
+}
+
+.dot-dest {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-rose);
+  box-shadow: 0 0 6px var(--accent-rose);
+}
+
+/* Catálogo de Sistemas de Propulsión */
+.propulsion-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.prop-category-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-heading {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+.prop-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.prop-card {
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prop-card:hover {
+  background: rgba(51, 65, 85, 0.65);
+  border-color: rgba(56, 189, 248, 0.4);
+  transform: translateY(-2px);
+}
+
+.prop-card.selected {
+  background: rgba(2, 132, 199, 0.22);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 18px var(--accent-cyan-glow);
+}
+
+.prop-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prop-icon {
+  font-size: 22px;
+}
+
+.prop-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.prop-name {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.prop-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Caja de Velocidad Personalizada */
+.custom-speed-box {
+  background: rgba(10, 15, 30, 0.85);
+  border: 1px solid var(--accent-cyan);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 0 20px var(--accent-cyan-glow);
+}
+
+.custom-inputs-row {
+  display: flex;
+  gap: 12px;
+}
+
+.custom-input {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+}
+
+.custom-input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.custom-speed-preview {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Panel de Resultados y Telemetría del Viaje */
+.results-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.time-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .time-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.time-card {
+  background: rgba(10, 15, 30, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.time-card.crew-card {
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.time-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.time-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.result-number {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.result-number.relativistic-glow {
+  color: var(--accent-purple);
+  text-shadow: 0 0 15px var(--accent-purple-glow);
+}
+
+.result-number.warp-glow {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 15px var(--accent-cyan-glow);
+}
+
+.result-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Tarjeta de Dilatación Relativista */
+.relativistic-callout {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(59, 130, 246, 0.1));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.callout-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: #d8b4fe;
+}
+
+.lorentz-badge {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(168, 85, 247, 0.25);
+  color: #f3e8ff;
+  border: 1px solid var(--accent-purple);
+}
+
+.callout-desc {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+/* Banner de Motor Warp */
+.warp-banner {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(2, 132, 199, 0.1));
+  border: 1px solid var(--accent-cyan);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #e0f2fe;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Comparativas a Escala Humana */
+.comparisons-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comp-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+}
+
+.comp-icon {
+  font-size: 20px;
+}
+
+.comp-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.comp-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.comp-val {
+  font-size: 13px;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Simulador de Carrera ("Gran Premio Cósmico")
+   ========================================================================== */
+.race-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.race-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.race-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-amber);
+}
+
+.race-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.race-selector-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 800px) {
+  .race-selector-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.race-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.race-tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.racer-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.racer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.racer-icon {
+  font-size: 24px;
+}
+
+.racer-text {
+  flex: 1;
+}
+
+.racer-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.racer-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.racer-badge-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-cyan);
+}
+
+.racer-time-estimate {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.racer-rank {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--text-dim);
+}
+
+.racer-rank.rank-1 {
+  background: rgba(251, 191, 36, 0.2);
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+}
+
+.racer-rank.rank-2 {
+  background: rgba(226, 232, 240, 0.2);
+  color: #e2e8f0;
+  border: 1px solid #cbd5e1;
+}
+
+.racer-rank.rank-3 {
+  background: rgba(180, 83, 9, 0.2);
+  color: #fdba74;
+  border: 1px solid #c2410c;
+}
+
+.track-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.track-planet-start, .track-planet-end {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-highlight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.track-bar {
+  flex: 1;
+  height: 18px;
+  background: rgba(10, 15, 30, 0.8);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  position: relative;
+  overflow: visible;
+}
+
+.track-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, var(--accent-cyan));
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: width 0.08s linear;
+}
+
+.track-ship {
+  position: absolute;
+  right: -10px;
+  top: -6px;
+  font-size: 18px;
+  filter: drop-shadow(0 0 6px var(--accent-cyan));
+  transform: rotate(45deg);
+}
+
+.racer-telemetry {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* ==========================================================================
+   Modal de la Enciclopedia Cósmica
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+.modal-backdrop {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-window {
+  background: #0b0f1e;
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 1100px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-title h2 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  color: #fff;
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 6px;
+  background: rgba(10, 15, 30, 0.6);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.tab-btn {
+  background: transparent;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+}
+
+.tab-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.btn-close-modal {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 26px;
+  line-height: 1;
+  padding: 4px 10px;
+  border-radius: 50%;
+}
+
+.btn-close-modal:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+  padding: 0;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+.encyclopedia-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .encyclopedia-layout {
+    flex-direction: column;
+  }
+}
+
+.encyclopedia-sidebar {
+  width: 320px;
+  background: rgba(15, 23, 42, 0.4);
+  border-right: 1px solid var(--border-subtle);
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.topic-item:hover {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.topic-item.active {
+  background: rgba(56, 189, 248, 0.15);
+  border-left: 3px solid var(--accent-cyan);
+}
+
+.topic-icon, .body-symbol {
+  font-size: 20px;
+}
+
+.topic-item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.topic-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+}
+
+.topic-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.encyclopedia-article {
+  flex: 1;
+  padding: 28px 32px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.article-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+
+.article-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.article-summary {
+  font-size: 15px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.article-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 6px 0;
+}
+
+.article-content {
+  font-size: 14px;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.article-content h4 {
+  font-family: var(--font-heading);
+  color: #fff;
+  margin: 18px 0 6px;
+  font-size: 16px;
+}
+
+.article-content ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.article-content li {
+  margin-bottom: 6px;
+}
+
+.formula-box {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--accent-purple);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: #e9d5ff;
+  margin: 12px 0;
+}
+
+/* Dossier Planetario */
+.dossier-header {
+  padding-left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dossier-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.stat-card {
+  background: rgba(30, 41, 59, 0.45);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--accent-cyan);
+}
+
+.curiosities-list {
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.pros-cons-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.pro-column {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.con-column {
+  background: rgba(244, 63, 94, 0.08);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.pro-column h4, .con-column h4 {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* Clases de Utilidad */
+.hidden {
+  display: none !important;
+}

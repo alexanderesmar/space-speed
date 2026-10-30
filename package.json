@@ -1,0 +1,11 @@
+{
+  "name": "space-speed-calculator",
+  "version": "1.0.0",
+  "description": "Calculadora interactiva y educativa de tiempos de viaje interplanetario e interestelar",
+  "scripts": {
+    "start": "npx serve -l 3000 ."
+  },
+  "keywords": ["space", "astronomy", "calculator", "education", "physics"],
+  "author": "Antigravity",
+  "license": "MIT"
+}

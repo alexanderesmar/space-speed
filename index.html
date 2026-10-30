@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpaceSpeed &bull; Calculadora Interactiva de Viaje Espacial y Propulsión</title>
+  <meta name="description" content="Calculadora y simulador educativo interactivo de tiempos de viaje interplanetario e interestelar. Compara tecnologías actuales, cohetes nucleares, motores de fusión, velas solares, relatividad de Einstein y motores Warp de ciencia ficción.">
+  <meta name="keywords" content="espacio, física, velocidad de la luz, relatividad, dilatación temporal, hohmann, sistema solar, planetas, cohetes, warp drive, nasa">
+  <meta name="author" content="Antigravity">
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Fondo de Estrellas 3D con Efecto Warp -->
+  <canvas id="starfieldCanvas"></canvas>
+
+  <div class="app-container">
+    
+    <!-- Barra de Navegación / Cabecera Principal -->
+    <header class="app-header">
+      <div class="brand-box">
+        <span class="brand-icon">🚀</span>
+        <div>
+          <h1 class="brand-title">SpaceSpeed</h1>
+          <p class="brand-tagline">Calculadora Interactiva de Viajes Espaciales & Propulsión</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button id="btnSoundToggle" class="btn-ghost" title="Activar o silenciar efectos de sonido">
+          🔊 Audio: Activado
+        </button>
+        <button id="btnAmbientToggle" class="btn-ghost" title="Iniciar drone cósmico ambiental sintetizado">
+          🌌 Ambiente Cósmico
+        </button>
+        <button id="btnOpenRace" class="btn-ghost" title="Ir al Simulador de Carreras">
+          🏁 Gran Premio Cósmico
+        </button>
+        <button id="btnOpenEncyclopedia" class="btn-primary" title="Abrir enciclopedia didáctica">
+          📚 Enciclopedia Cósmica
+        </button>
+      </div>
+    </header>
+
+    <!-- Disposición Principal de la Aplicación -->
+    <main class="main-grid">
+
+      <!-- Columna Izquierda: Visualizador del Sistema Solar y Parámetros de Vuelo -->
+      <section class="left-column" style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Panel del Visualizador Solar Canvas -->
+        <div class="glass-panel" style="padding: 16px;">
+          <div class="panel-title-box">
+            <h2 class="panel-title">
+              <span>🪐</span> Simulador Orbital en Tiempo Real
+            </h2>
+            <div class="panel-badge">Interactivo 2D/3D</div>
+          </div>
+
+          <div class="solar-viz-container">
+            <canvas id="orbitCanvas"></canvas>
+
+            <!-- Controles HUD del Canvas -->
+            <div class="canvas-hud-overlay">
+              <div class="hud-select-wrapper">
+                <label for="selectTimeSpeed" class="hud-label">Velocidad:</label>
+                <select id="selectTimeSpeed" class="btn-ghost hud-select" title="Velocidad de simulación orbital">
+                  <option value="0">Pausar (0x)</option>
+                  <option value="0.1">0.1x (Muy lenta)</option>
+                  <option value="0.25">0.25x (Lenta)</option>
+                  <option value="0.5">0.5x (Suave)</option>
+                  <option value="1" selected>1x (Normal)</option>
+                  <option value="2">2x (Rápida)</option>
+                  <option value="5">5x (Muy rápida)</option>
+                </select>
+              </div>
+              <button id="btnToggleLogScale" class="btn-ghost" title="Alternar entre escala logarítmica visible y proporcional real">
+                🔍 Escala: Logarítmica
+              </button>
+              <button id="btnResetView" class="btn-ghost" title="Centrar y reiniciar vista">
+                ↺ Centrar
+              </button>
+            </div>
+
+            <!-- Leyenda del Canvas -->
+            <div class="canvas-legend-overlay">
+              <div class="legend-item">
+                <span class="dot-origin"></span> Origen
+              </div>
+              <div class="legend-item">
+                <span class="dot-dest"></span> Destino
+              </div>
+              <span style="color: var(--text-dim);">Haz clic o arrastra los planetas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel de Configuración de Ruta y Distancia -->
+        <div class="glass-panel">
+          <div class="panel-title-box">
+            <h2 class="panel-title">
+              <span>🗺️</span> Plan de Vuelo Interplanetario
+            </h2>
+            <div class="panel-badge">Geometría Orbital</div>
+          </div>
+
+          <!-- Selector de Planetas -->
+          <div class="planet-selector-grid">
+            <div class="planet-field">
+              <label for="selectOrigin" class="field-label">Punto de Partida (Origen):</label>
+              <select id="selectOrigin" class="cosmic-select"></select>
+            </div>
+
+            <button id="btnSwapPlanets" class="btn-swap" title="Intercambiar origen y destino">
+              ⇄
+            </button>
+
+            <div class="planet-field">
+              <label for="selectDest" class="field-label">Objetivo (Destino):</label>
+              <select id="selectDest" class="cosmic-select"></select>
+            </div>
+          </div>
+
+          <!-- Modos de Distancia Orbital -->
+          <div class="distance-mode-box">
+            <span class="field-label">Configuración Orbital de Distancia:</span>
+            <div class="dist-buttons-row">
+              <button class="dist-mode-btn" data-mode="minKm" title="Máxima aproximación / oposición entre ambos mundos">
+                Mínima (Oposición)
+              </button>
+              <button class="dist-mode-btn active" data-mode="avgKm" title="Distancia media estadística considerando órbitas asíncronas">
+                Media (Promedio Real)
+              </button>
+              <button class="dist-mode-btn" data-mode="maxKm" title="Lados opuestos respecto al Sol (conjunción)">
+                Máxima (Conjunción)
+              </button>
+              <button class="dist-mode-btn" data-mode="hohmannKm" title="Trayectoria elíptica curvada real por la gravedad del Sol">
+                Órbita Hohmann
+              </button>
+            </div>
+          </div>
+
+          <!-- Telemetría de la Distancia Calculada -->
+          <div class="distance-metrics-bar">
+            <div class="metric-unit-box">
+              <span class="metric-lbl">Kilómetros</span>
+              <span id="distDisplayKm" class="metric-val">-- km</span>
+            </div>
+            <div class="metric-unit-box">
+              <span class="metric-lbl">Unidades Astronómicas</span>
+              <span id="distDisplayAU" class="metric-val">-- UA</span>
+            </div>
+            <div class="metric-unit-box">
+              <span class="metric-lbl">Tiempo-Luz (c)</span>
+              <span id="distDisplayLightTime" class="metric-val">--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel de Selección de Sistema de Propulsión -->
+        <div class="glass-panel">
+          <div class="panel-title-box">
+            <h2 class="panel-title">
+              <span>⚡</span> Sistema de Propulsión de la Nave
+            </h2>
+            <div class="panel-badge">Tecnología & Motores</div>
+          </div>
+
+          <!-- Contenedor dinámico de tarjetas de propulsión -->
+          <div id="propulsionCards" class="propulsion-section"></div>
+
+          <!-- Caja de Velocidad Personalizada (Se muestra al elegir "Custom") -->
+          <div id="customSpeedBox" class="custom-speed-box hidden">
+            <div style="font-weight: 600; font-size: 13px; color: var(--accent-cyan);">
+              ⚙️ Ajuste de Velocidad Personalizada
+            </div>
+            <div class="custom-inputs-row">
+              <input type="number" id="inputCustomSpeed" class="custom-input" value="100" min="0.001" step="any">
+              <select id="selectCustomUnit" class="cosmic-select" style="max-width: 170px;">
+                <option value="kms">km/s (kilómetros/seg)</option>
+                <option value="kmh">km/h (kilómetros/hora)</option>
+                <option value="pct_c">% de la velocidad de la luz (c)</option>
+                <option value="mach">Mach (Velocidad del sonido)</option>
+                <option value="c">Múltiplo de c (Superlumínico)</option>
+              </select>
+            </div>
+            <div id="customSpeedPreview" class="custom-speed-preview"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Columna Derecha: Telemetría de Vuelo, Relatividad y Escala Humana -->
+      <section class="right-column" style="display: flex; flex-direction: column; gap: 24px;">
+
+        <!-- Dashboard de Resultados -->
+        <div class="glass-panel results-dashboard">
+          <div class="panel-title-box">
+            <h2 class="panel-title">
+              <span>⏱️</span> Telemetría de Duración del Viaje
+            </h2>
+            <div class="panel-badge">Cálculo Relativista</div>
+          </div>
+
+          <!-- Tiempos Comparados: Tierra vs Nave -->
+          <div class="time-hero-grid">
+            <!-- Tiempo Observador Terrestre -->
+            <div class="time-card">
+              <div class="time-card-header">
+                <span class="time-card-label">🌍 Tiempo en la Tierra</span>
+                <span style="font-size: 16px;">📡</span>
+              </div>
+              <div id="timeEarth">
+                <div class="result-number">Calculando...</div>
+              </div>
+            </div>
+
+            <!-- Tiempo Propio de la Tripulación (Dilatado) -->
+            <div class="time-card crew-card">
+              <div class="time-card-header">
+                <span class="time-card-label">🧑‍🚀 Tiempo para la Tripulación</span>
+                <span style="font-size: 16px;">⏳</span>
+              </div>
+              <div id="timeCrew">
+                <div class="result-number">Calculando...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Dilatación Temporal Relativista (Visible a velocidades cercanas a c) -->
+          <div id="dilationCard" class="relativistic-callout hidden">
+            <div class="callout-header">
+              <span class="callout-title">⚠️ Efecto de Relatividad Especial (Einstein)</span>
+              <span class="lorentz-badge">Factor de Lorentz γ = <span id="lorentzVal">1.00</span></span>
+            </div>
+            <p id="dilationDesc" class="callout-desc"></p>
+          </div>
+
+          <!-- Banner para Motor Warp / FTL Alcubierre -->
+          <div id="warpBanner" class="warp-banner hidden">
+            <span style="font-size: 24px;">🌀</span>
+            <div>
+              <strong>Métrica de Curvatura Warp Activa:</strong> La nave viaja en una burbuja de espacio contraído. Localmente, no experimenta dilatación temporal con respecto al universo exterior.
+            </div>
+          </div>
+
+          <!-- Comparativas Educativas a Escala Humana -->
+          <div class="comparisons-section">
+            <div class="field-label">Comparativas a Escala Humana:</div>
+            <div id="comparisonsList" class="comp-list"></div>
+          </div>
+
+          <!-- Botón de apertura a la ficha técnica -->
+          <button class="btn-ghost" onclick="document.getElementById('btnOpenEncyclopedia').click()" style="width: 100%; text-align: center; margin-top: 6px;">
+            📖 Leer detalles de física y fórmulas en la Enciclopedia
+          </button>
+        </div>
+
+        <!-- Minitarjeta Didáctica: ¿Sabías qué? -->
+        <div class="glass-panel" style="background: rgba(30, 41, 59, 0.45);">
+          <div class="panel-title-box">
+            <h3 class="panel-title" style="font-size: 15px;">
+              <span>💡</span> Sabías que...
+            </h3>
+            <span class="panel-badge" style="color: var(--accent-amber); border-color: rgba(251, 191, 36, 0.3);">Dato Cósmico</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+            A la velocidad de la nave más rápida jamás construida por la humanidad (la <strong>Parker Solar Probe</strong> a ~692,000 km/h), ¡tardarías más de <strong>6,600 años</strong> solo en llegar a la estrella vecina más cercana (Próxima Centauri)! El espacio interestelar es inimaginablemente inmenso.
+          </p>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Sección de Ancho Completo: Gran Premio Cósmico (Simulador de Carrera) -->
+    <section id="raceSection" class="glass-panel" style="margin-top: 10px;">
+      <div id="raceContainer" class="race-container"></div>
+    </section>
+
+    <!-- Modal: Enciclopedia del Viajero Cósmico -->
+    <div id="encyclopediaModal" class="modal-overlay hidden"></div>
+
+    <!-- Pie de Página -->
+    <footer class="app-footer">
+      <p>SpaceSpeed &bull; Aplicación Didáctica Interactiva de Astrodinámica y Exploración Espacial.</p>
+      <div class="footer-links">
+        <span class="footer-link" onclick="document.getElementById('btnOpenEncyclopedia').click()">Enciclopedia de Física</span>
+        <span class="footer-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Subir al Inicio</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts Modulares ES6 -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
